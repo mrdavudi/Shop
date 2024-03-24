@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ShopManagement.Domain", "Sh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopManagement.Domain", "ShopManagement.Domain\ShopManagement.Domain.csproj", "{85E0F609-A5CE-4C1B-B598-ECA753BAB9A1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_0_Framework", "_0_Framework", "{6804042D-40E4-451D-9918-A65271672A01}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_0_Framework", "_0_Framework\_0_Framework.csproj", "{C485BBE9-9F40-48A7-A2FA-42AC708B7839}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ShopManagement.Application", "ShopManagement.Application", "{0A41E8CF-23DA-4196-8F40-20869C65AFB5}"
@@ -26,6 +24,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceHost", "ServiceHost", "{AC24478C-A33B-4CB9-92B2-2CCFF1D63AF4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceHosts", "ServiceHosts\ServiceHosts.csproj", "{DAD656A6-EBE4-4EDE-96C3-2EB41350394C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_01_Query", "01_Query\_01_Query.csproj", "{9BC4E6C9-5018-4984-99AE-BBC0BA490821}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,13 +61,16 @@ Global
 		{DAD656A6-EBE4-4EDE-96C3-2EB41350394C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAD656A6-EBE4-4EDE-96C3-2EB41350394C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAD656A6-EBE4-4EDE-96C3-2EB41350394C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BC4E6C9-5018-4984-99AE-BBC0BA490821}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BC4E6C9-5018-4984-99AE-BBC0BA490821}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BC4E6C9-5018-4984-99AE-BBC0BA490821}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BC4E6C9-5018-4984-99AE-BBC0BA490821}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{85E0F609-A5CE-4C1B-B598-ECA753BAB9A1} = {86684E44-BF13-404E-8201-A9F12274C535}
-		{C485BBE9-9F40-48A7-A2FA-42AC708B7839} = {6804042D-40E4-451D-9918-A65271672A01}
 		{DA17170F-F1F9-4865-BA21-40C73A1E4946} = {0A41E8CF-23DA-4196-8F40-20869C65AFB5}
 		{616F4978-B365-4A9A-9A4E-CB9774D2A6E5} = {0A41E8CF-23DA-4196-8F40-20869C65AFB5}
 		{773B9C5A-8AD8-4985-BD1A-6EEDAFB0ADAD} = {E9DC1A03-24ED-49E8-8830-9482102CE3F2}

@@ -42,7 +42,7 @@ namespace ShopManagement.Application
             if (productCategory == null)
                 return operationResult.Failed();
 
-            if (_productCategoryRepository.Exist(x=> x.Name == command.Name))
+            if (_productCategoryRepository.Exist(x=> x.Name == command.Name && x.Id != command.Id))
                 return operationResult.Failed("نام مورد نظر تکراری است.");
 
             var slug = command.Slug.Slugify();
