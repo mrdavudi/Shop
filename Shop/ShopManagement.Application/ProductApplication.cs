@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using _0_Framework.Application;
 using ShopManagement.Application.Contract.Product;
+using ShopManagement.Application.Contract.ProductCategory;
 using ShopManagement.Domain.ProductAgg;
 
 namespace ShopManagement.Application
@@ -22,16 +23,16 @@ namespace ShopManagement.Application
         {
             var OperationResult = new OperationResult();
 
-            if (_productRepository.Exist(command.Name))
+            if (_productRepository.Exist(x=>x.Name == command.Name))
                 return OperationResult.Failed("نام مورد نظر تکراری است");
 
             var slug = command.Slug.Slugify();
-            var product = new Product(command.Name, command.ShortDescription, command.Description, command.Picture,
-                command.PictureAlt, command.PictureTitle, slug, command.Keywords, command.MetaDescription);
-            _productRepository.CreateProduct(product);
+            var product = new Product(command.Name, command.Code, command.ShortDescription, command.Description, command.Picture,
+                command.PictureAlt, command.PictureTitle, command.CategoryId, slug, command.Keywords, command.MetaDescription);
+            _productRepository.Create(product);
             _productRepository.SaveChange();
 
-            return OperationResult.IsSucceded();
+            return OperationResult.Succeded();
         }
 
         public OperationResult Edit(EditProduct command)
@@ -42,15 +43,15 @@ namespace ShopManagement.Application
             if (product == null)
                 return OperationResult.Failed("رکوردی یافت نشد");
 
-            if (_productRepository.Exist(command.Name))
+            if (_productRepository.Exist(x=> x.Name == command.Name && x.Id != command.Id))
                 return OperationResult.Failed("نام مورد نظر تکراری است");
 
             var slug = command.Slug.Slugify();
-            product.Edit(command.Name, command.ShortDescription, command.Description, command.Picture,
-                command.PictureAlt, command.PictureTitle, slug, command.Keywords, command.MetaDescription);
+            product.Edit(command.Name, command.Code, command.ShortDescription, command.Description, command.Picture,
+                command.PictureAlt, command.PictureTitle, command.CategoryId, slug, command.Keywords, command.MetaDescription);
             _productRepository.SaveChange();
 
-            return OperationResult.IsSucceded();
+            return OperationResult.Succeded();
 
         }
 

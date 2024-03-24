@@ -22,7 +22,7 @@ namespace ShopManagement.Application
         {
             var operationResult = new OperationResult();
 
-            if (_productCategoryRepository.Exist(command.Name))
+            if (_productCategoryRepository.Exist(x=> x.Name == command.Name))
                 return operationResult.Failed("نام مورد نظر تکراری است.");
 
             var slug = command.Slug.Slugify();
@@ -31,7 +31,7 @@ namespace ShopManagement.Application
             _productCategoryRepository.Create(productCategory);
             _productCategoryRepository.SaveChange();
 
-            return operationResult.IsSucceded();
+            return operationResult.Succeded();
         }
 
         public OperationResult Edit(EditProductCategory command)
@@ -42,7 +42,7 @@ namespace ShopManagement.Application
             if (productCategory == null)
                 return operationResult.Failed();
 
-            if (_productCategoryRepository.Exist(command.Name))
+            if (_productCategoryRepository.Exist(x=> x.Name == command.Name))
                 return operationResult.Failed("نام مورد نظر تکراری است.");
 
             var slug = command.Slug.Slugify();
@@ -50,7 +50,7 @@ namespace ShopManagement.Application
                 command.PictureTitle, command.Keywords, command.MetaDescription, slug);
             _productCategoryRepository.SaveChange();
 
-            return operationResult.IsSucceded();
+            return operationResult.Succeded();
         }
 
         public EditProductCategory GetDetail(long id)

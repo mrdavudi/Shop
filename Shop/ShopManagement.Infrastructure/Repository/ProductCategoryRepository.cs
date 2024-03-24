@@ -27,7 +27,7 @@ namespace ShopManagement.Infrastructure.Repository
                 Name = x.Name,
                 Keywords = x.Keywords,
                 MetaDescription = x.MetaDescription,
-                //Picture = x.Picture,
+                Picture = x.Picture,
                 PictureAlt = x.PictureAlt,
                 PictureTitle = x.PictureTitle,
                 Slug = x.Slug
@@ -48,11 +48,13 @@ namespace ShopManagement.Infrastructure.Repository
             var query = _shopContext.ProductCategories.Select(x => new ProductCategoryViewModel
             {
                 Id = x.Id,
-                Name = x.Name
+                Name = x.Name,
+                Picture = x.Picture,
+                CreationDate = x.CreatetionDateTime.ToString()
             });
 
             if (!string.IsNullOrWhiteSpace(searchModel.Name))
-                query.Where(x => x.Name.Contains(searchModel.Name));
+                query = query.Where(x => x.Name.Contains(searchModel.Name));
 
             return query.OrderByDescending(x => x.Id).ToList();
         }
