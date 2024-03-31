@@ -1,8 +1,6 @@
-using ShopManagement.Application;
-using ShopManagement.Application.Contract.ProductCategory;
+using DiscountManagementConfiguration;
+using InventoryManagement.Infrastructure.Configuration;
 using ShopManagement.Configuration;
-using ShopManagement.Domain.ProductCategoryAgg;
-using ShopManagement.Infrastructure.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +9,10 @@ builder.Services.AddRazorPages();
 
 
 var connectionString = builder.Configuration.GetConnectionString("Shop_DB");
+
 ShopManagementBootstrapper.Configure(builder.Services, connectionString);
+DiscountManagementBootstrapper.Configure(builder.Services, connectionString);
+InventoryManagementBootstraper.Configure(builder.Services, connectionString);
 
 builder.Services.AddControllers(
     options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
