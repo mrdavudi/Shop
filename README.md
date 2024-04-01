@@ -1,2 +1,2 @@
 # Shop
-This is a sample shop project with ASP .NET Core
+This is a sample shop with ASP.NET Core and onion architecture
