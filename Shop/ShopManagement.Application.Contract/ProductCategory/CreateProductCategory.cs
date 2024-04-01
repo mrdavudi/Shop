@@ -16,7 +16,6 @@ namespace ShopManagement.Application.Contract.ProductCategory
         public string Keywords { get; set; }
 
         [Required(ErrorMessage = ValidationMessage.IsRequired)]
-        [MaxLength (150, ErrorMessage = "حداکثر تعداد مجاز کاراکتر 150 عدد است.")]
         public string MetaDescription { get; set; }
 
         [Required(ErrorMessage = ValidationMessage.IsRequired)]

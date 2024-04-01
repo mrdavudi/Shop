@@ -8,8 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DiscountManagement.Infrastructure\DiscountManagement.Infrastructure.csproj" />
-    <ProjectReference Include="..\InventoryManagement.Infrastructure\InventoryManagement.Infrastructure.csproj" />
     <ProjectReference Include="..\ShopManagement.Infrastructure\ShopManagement.Infrastructure.csproj" />
   </ItemGroup>
 
