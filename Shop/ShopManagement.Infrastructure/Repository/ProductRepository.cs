@@ -70,7 +70,7 @@ namespace ShopManagement.Infrastructure.Repository
             });
 
             if (!string.IsNullOrWhiteSpace(searchmodel.Name))
-                query = query.Where(x => x.Name == searchmodel.Name);
+                query = query.Where(x => x.Name.Contains(searchmodel.Name));
 
             if (searchmodel.CategoryId != 0)
                 query = query.Where(x => x.CategoryId == searchmodel.CategoryId);
