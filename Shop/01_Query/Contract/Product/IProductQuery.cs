@@ -9,5 +9,7 @@ namespace _01_Query.Contract.Product
     public interface IProductQuery
     {
         public List<ProductQueryModel> GeLatestArrivals();
+        public List<ProductQueryModel> Search(string value);
+        public ProductQueryModel GetProductDetail(string slug);
     }
 }

@@ -68,7 +68,7 @@
                                                             </div>
                                                         }
 
-                                                        <a asp-page="/ProductDeatils" asp-route-id="@product.Slug">
+                                                        <a asp-page="/ProductDetail" asp-route-id="@product.Slug">
                                                             <img src="~/ProductPictures/@product.Picture" class="img-fluid"
                                                                  alt="@product.PictureAlt" title="@product.PictureTitle">
                                                         </a>
@@ -76,7 +76,7 @@
                                                     <div class="single-grid-product__content">
                                                         <div class="single-grid-product__category-rating">
                                                             <span class="category">
-                                                                <a asp-page="/ProductCategoryDetail" asp-route-id="@product.CategorySlug">@product.Category</a>
+                                                                <a asp-page="/ProductCategoryDetail" asp-route-id="@category.Slug">@product.Category</a>
                                                             </span>
                                                             <span class="rating">
                                                                 <i class="ion-android-star active"></i>
@@ -88,7 +88,7 @@
                                                         </div>
 
                                                         <h3 class="single-grid-product__title">
-                                                            <a asp-page="/ProductDeatils" asp-route-id="@product.Slug">@product.Name</a>
+                                                            <a asp-page="/ProductDetail" asp-route-id="@product.Slug">@product.Name</a>
                                                         </h3>
                                                         <p class="single-grid-product__price">
                                                             @if (product.HasDiscount)

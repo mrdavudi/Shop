@@ -2246,10 +2246,12 @@ select {
     .single-grid-product__image > a {
         display: block;
         width: 100%;
+        display: flex;
+        justify-content: center;
     }
 
         .single-grid-product__image > a img {
-            width: 100%;
+            width: 200px;
             -webkit-transition: .6s;
             transition: .6s;
         }
@@ -3653,6 +3655,9 @@ select {
 
 .shop-product-wrap .single-grid-product {
     margin-bottom: 50px;
+    box-shadow: 1px 1px 10px #eee;
+    padding: 22px;
+    height: 500px;
 }
 
 /*=====  End of shop  ======*/
