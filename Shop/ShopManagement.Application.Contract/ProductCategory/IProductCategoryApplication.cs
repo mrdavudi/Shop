@@ -9,5 +9,6 @@ namespace ShopManagement.Application.Contract.ProductCategory
         public EditProductCategory GetDetail(long id);
         public List<ProductCategoryViewModel> GetProductCategories();
         public List<ProductCategoryViewModel> Search(ProductCategorySearchModel searchmodel);
+        public string GetProductCategorySlugBy(long id);
     }
 }

@@ -10,5 +10,7 @@ namespace _0_Framework.Application
     public class ValidationMessage
     {
         public const string IsRequired = "این فیلد ضروری است.";
+        public const string MaxFileSize = "این فیلد ضروری است.";
+        public const string ValidExtensions = "پسوند فایل نادرست است.";
     }
 }

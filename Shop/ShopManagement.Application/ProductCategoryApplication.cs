@@ -12,10 +12,12 @@ namespace ShopManagement.Application
     public class ProductCategoryApplication : IProductCategoryApplication
     {
         private readonly IProductCategoryRepository _productCategoryRepository;
+        private readonly IFileUploader _fileUploader;
 
-        public ProductCategoryApplication(IProductCategoryRepository productCategoryRepository)
+        public ProductCategoryApplication(IProductCategoryRepository productCategoryRepository, IFileUploader fileUploader)
         {
             _productCategoryRepository = productCategoryRepository;
+            _fileUploader = fileUploader;
         }
 
         public OperationResult Create(CreateProductCategory command)
@@ -26,7 +28,11 @@ namespace ShopManagement.Application
                 return operationResult.Failed("نام مورد نظر تکراری است.");
 
             var slug = command.Slug.Slugify();
-            var productCategory = new ProductCategory(command.Name, command.Description, command.Picture,
+
+            var path = command.Slug;
+            var Picture = _fileUploader.Upload(command.Picture, path);
+
+            var productCategory = new ProductCategory(command.Name, command.Description, Picture,
                 command.PictureAlt, command.PictureTitle, command.Keywords, command.MetaDescription, slug);
             _productCategoryRepository.Create(productCategory);
             _productCategoryRepository.SaveChange();
@@ -46,7 +52,11 @@ namespace ShopManagement.Application
                 return operationResult.Failed("نام مورد نظر تکراری است.");
 
             var slug = command.Slug.Slugify();
-            productCategory.Edit(command.Name, command.Description, command.Picture, command.PictureAlt,
+
+            var path = command.Slug;
+            var Picture = _fileUploader.Upload(command.Picture, path);
+
+            productCategory.Edit(command.Name, command.Description, Picture, command.PictureAlt,
                 command.PictureTitle, command.Keywords, command.MetaDescription, slug);
             _productCategoryRepository.SaveChange();
 
@@ -61,6 +71,11 @@ namespace ShopManagement.Application
         public List<ProductCategoryViewModel> GetProductCategories()
         {
             return _productCategoryRepository.GetProductCategory();
+        }
+
+        public string GetProductCategorySlugBy(long id)
+        {
+            return _productCategoryRepository.GetProductCategorySlugBy(id);
         }
 
         public List<ProductCategoryViewModel> Search(ProductCategorySearchModel searchmodel)

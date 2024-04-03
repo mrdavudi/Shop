@@ -1,4 +1,5 @@
-﻿using _0_Framework.Repository;
+﻿using _0_Framework.Application;
+using _0_Framework.Repository;
 using Microsoft.EntityFrameworkCore;
 using ShopManagement.Application.Contract.ProductPicture;
 using ShopManagement.Domain.ProductPictureAgg;
@@ -19,7 +20,6 @@ namespace ShopManagement.Infrastructure.Repository
                 .Select(x => new EditProductPicture
                 {
                     Id = x.Id,
-                    Pictures = x.Picture,
                     PictureAlt = x.PictureAlt,
                     PictureTitle = x.PictureTitle,
                     ProductId = x.ProductId
@@ -42,7 +42,7 @@ namespace ShopManagement.Infrastructure.Repository
                 {
                     Id = x.Id,
                     Product = x.Products.Name,
-                    CreationDate = x.CreatetionDateTime.ToString(),
+                    CreationDate = x.CreatetionDateTime.ToFarsi(),
                     Picture = x.Picture,
                     ProductId = x.ProductId,
                     IsRemoved = x.IsRemoved

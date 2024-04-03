@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using _0_Framework.Application;
 using _0_Framework.Repository;
 using Microsoft.EntityFrameworkCore;
 using ShopManagement.Application.Contract.Product;
@@ -31,7 +32,7 @@ namespace ShopManagement.Infrastructure.Repository
                 Description = x.Description,
                 Keywords = x.Keywords,
                 MetaDescription = x.MetaDescription,
-                Picture = x.Picture,
+                //Picture = x.Picture,
                 PictureAlt = x.PictureAlt,
                 PictureTitle = x.PictureTitle,
                 ShortDescription = x.ShortDescription
@@ -66,7 +67,7 @@ namespace ShopManagement.Infrastructure.Repository
                 CategoryId = x.CategoryId,
                 Code = x.Code,
                 Picture = x.Picture,
-                CreationDate = x.CreatetionDateTime.ToString()
+                CreationDate = x.CreatetionDateTime.ToFarsi()
             });
 
             if (!string.IsNullOrWhiteSpace(searchmodel.Name))

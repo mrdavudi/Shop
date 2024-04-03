@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using _0_Framework.Application;
 using _0_Framework.Repository;
 using Microsoft.EntityFrameworkCore;
 using ShopManagement.Application.Contract.Slide;
@@ -26,7 +27,6 @@ namespace ShopManagement.Infrastructure.Repository
                     Id = x.Id,
                     BtnText = x.BtnText,
                     Heading = x.Heading,
-                    Picture = x.Picture,
                     PictureAlt = x.PictureAlt,
                     PictureTitle = x.PictureTitle,
                     Text = x.Text,
@@ -46,7 +46,7 @@ namespace ShopManagement.Infrastructure.Repository
                     Picture = x.Picture,
                     Title = x.Title,
                     IsRemoved = x.IsRemoved,
-                    CreationDate = x.CreatetionDateTime.ToString()
+                    CreationDate = x.CreatetionDateTime.ToFarsi()
                 })
                 .OrderByDescending(x => x.Id)
                 .ToList();

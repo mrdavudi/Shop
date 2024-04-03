@@ -1,3 +1,4 @@
+using _0_Framework.Application;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -39,7 +40,16 @@ namespace ServiceHosts.Areas.Administration.Pages.Shop.ProductPicture
 
         public JsonResult OnPostCreate(CreateProductPicture command)
         {
-            var result = _productPictureApplication.Create(command);
+            var modelStateError = ModelState
+                .Select(x => x.Value.Errors)
+                .Where(x => x.Count > 0).Take(1);
+
+            var result = new OperationResult().Failed(modelStateError.ToString());
+            if (ModelState.IsValid)
+            {
+                result = _productPictureApplication.Create(command);
+            }
+
             return new JsonResult(result);
         }
 
@@ -53,17 +63,24 @@ namespace ServiceHosts.Areas.Administration.Pages.Shop.ProductPicture
 
         public JsonResult OnPostEdit(EditProductPicture command)
         {
-            var productEdit = _productPictureApplication.Edit(command);
+            var modelStateError = ModelState
+                .Select(x => x.Value.Errors)
+                .Where(x => x.Count > 0).Take(1);
+
+            var productEdit = new OperationResult().Failed(modelStateError.ToString());
+
+            if (ModelState.IsValid)
+            {
+                productEdit = _productPictureApplication.Edit(command);
+            }
+
             return new JsonResult(productEdit);
         }
 
         public IActionResult OnGetRemove(long id)
         {
-            var productRemove = _productPictureApplication.Remove(id);
-            if (productRemove.IsSuccedded)
-                return RedirectToPage("./Index");
 
-            var message = productRemove.Message;
+            var productRemove = _productPictureApplication.Remove(id);
             return RedirectToPage("./Index");
         }
 

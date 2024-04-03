@@ -1,3 +1,4 @@
+using _0_Framework.Application;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -30,8 +31,17 @@ namespace ServiceHosts.Areas.Administration.Pages.Shop.Slide
 
         public JsonResult OnPostCreate(CreateSlide command)
         {
-            var result = _slideApplication.Create(command);
-            return new JsonResult(result);
+            var modelStateError = ModelState
+                .Select(x => x.Value.Errors)
+                .Where(x => x.Count > 0).Take(1);
+
+            var slideCreate = new OperationResult().Failed(modelStateError.ToString());
+            if (ModelState.IsValid)
+            {
+                slideCreate = _slideApplication.Create(command);
+            }
+
+            return new JsonResult(slideCreate);
         }
 
         public IActionResult OnGetEdit(long id)
@@ -42,8 +52,16 @@ namespace ServiceHosts.Areas.Administration.Pages.Shop.Slide
 
         public JsonResult OnPostEdit(EditSlide command)
         {
-            var result = _slideApplication.Edit(command);
-            return new JsonResult(result);
+            var modelStateError = ModelState
+                .Select(x => x.Value.Errors)
+                .Where(x => x.Count > 0).Take(1);
+
+            var slideEdit = new OperationResult().Failed(modelStateError.ToString());
+            if (ModelState.IsValid)
+            {
+                slideEdit = _slideApplication.Edit(command);
+            }
+            return new JsonResult(slideEdit);
         }
 
         public IActionResult OnGetRemove(long id)

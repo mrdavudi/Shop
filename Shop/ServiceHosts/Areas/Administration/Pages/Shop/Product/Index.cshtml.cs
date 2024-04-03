@@ -40,8 +40,17 @@ namespace ServiceHosts.Areas.Administration.Pages.Shop.Product
 
         public JsonResult OnPostCreate(CreateProduct command)
         {
-            var newProduct = _productApplication.Create(command);
+            var modelStateError = ModelState
+                .Select(x => x.Value.Errors)
+                .Where(x => x.Count > 0).Take(1);
+
+            var newProduct = new OperationResult().Failed(modelStateError.ToString());
+            if (ModelState.IsValid)
+                newProduct = _productApplication.Create(command);
+
             return new JsonResult(newProduct);
+
+
         }
 
         public IActionResult OnGetEdit(long id)
@@ -53,7 +62,14 @@ namespace ServiceHosts.Areas.Administration.Pages.Shop.Product
 
         public JsonResult OnPostEdit(EditProduct command)
         {
-            var editProduct = _productApplication.Edit(command);
+            var modelStatError = ModelState
+                .Select(x => x.Value.Errors)
+                .Where(x => x.Count > 0).Take(1);
+
+            var editProduct = new OperationResult().Failed(modelStatError.ToString());
+            if (ModelState.IsValid)
+                editProduct = _productApplication.Edit(command);
+
             return new JsonResult(editProduct);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using _0_Framework.Application;
+using Microsoft.AspNetCore.Http;
 
 namespace ShopManagement.Application.Contract.ProductCategory
 {
@@ -8,7 +9,10 @@ namespace ShopManagement.Application.Contract.ProductCategory
         [Required(ErrorMessage = ValidationMessage.IsRequired)]
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Picture { get; set; }
+
+        [MaxFileSize(3 * 1024 * 1024, ErrorMessage = ValidationMessage.MaxFileSize)]
+        [FileExtensionLimitation(new string[] {".jpeg", ".jpg", ".png"}, ErrorMessage = "پسوند فایل نا درست است.")]
+        public IFormFile Picture { get; set; }
         public string PictureAlt { get; set; }
         public string PictureTitle { get; set; }
 

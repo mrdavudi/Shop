@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using _0_Framework.Application;
 using _0_Framework.Repository;
 using ShopManagement.Application.Contract.ProductCategory;
 using ShopManagement.Domain.ProductCategoryAgg;
@@ -27,7 +28,7 @@ namespace ShopManagement.Infrastructure.Repository
                 Name = x.Name,
                 Keywords = x.Keywords,
                 MetaDescription = x.MetaDescription,
-                Picture = x.Picture,
+                //Picture = x.Picture,
                 PictureAlt = x.PictureAlt,
                 PictureTitle = x.PictureTitle,
                 Slug = x.Slug
@@ -43,6 +44,13 @@ namespace ShopManagement.Infrastructure.Repository
             }).ToList();
         }
 
+        public string GetProductCategorySlugBy(long id)
+        {
+            return _shopContext.ProductCategories
+                .Select(x => new { x.Id, x.Slug })
+                .FirstOrDefault(x => x.Id == id).Slug;
+        }
+
         public List<ProductCategoryViewModel> Search(ProductCategorySearchModel searchModel)
         {
             var query = _shopContext.ProductCategories.Select(x => new ProductCategoryViewModel
@@ -50,7 +58,7 @@ namespace ShopManagement.Infrastructure.Repository
                 Id = x.Id,
                 Name = x.Name,
                 Picture = x.Picture,
-                CreationDate = x.CreatetionDateTime.ToString()
+                CreationDate = x.CreatetionDateTime.ToFarsi()
             });
 
             if (!string.IsNullOrWhiteSpace(searchModel.Name))

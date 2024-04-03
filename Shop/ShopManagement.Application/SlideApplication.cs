@@ -11,18 +11,21 @@ namespace ShopManagement.Application
 {
     public class SlideApplication : ISlideApplication
     {
+        private readonly IFileUploader _fileUploader;
         private readonly ISlideRepository _slideRepository;
 
-        public SlideApplication(ISlideRepository slideRepository)
+        public SlideApplication(ISlideRepository slideRepository, IFileUploader fileUploader)
         {
             _slideRepository = slideRepository;
+            _fileUploader = fileUploader;
         }
 
         public OperationResult Create(CreateSlide command)
         {
             var operationResult = new OperationResult();
 
-            var slide = new Slide(command.Picture, command.PictureAlt, command.PictureTitle, command.Heading,
+            var pictureName = _fileUploader.Upload(command.Picture, "Slides");
+            var slide = new Slide(pictureName, command.PictureAlt, command.PictureTitle, command.Heading,
                 command.Text, command.Title, command.BtnText, command.Link);
             _slideRepository.Create(slide);
             _slideRepository.SaveChange();
@@ -38,7 +41,9 @@ namespace ShopManagement.Application
             if (slide == null)
                 return operationResult.Failed("هیچ رکوردی یافت نشد");
 
-            slide.Edit(command.Picture, command.PictureAlt, command.PictureTitle, command.Heading,
+            var pictureName = _fileUploader.Upload(command.Picture, "Slides");
+
+            slide.Edit(pictureName, command.PictureAlt, command.PictureTitle, command.Heading,
                 command.Text, command.Title, command.BtnText, command.Link);
             _slideRepository.SaveChange();
 

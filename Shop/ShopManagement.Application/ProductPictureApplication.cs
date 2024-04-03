@@ -1,25 +1,34 @@
 ﻿using _0_Framework.Application;
+using ShopManagement.Application.Contract.Product;
 using ShopManagement.Application.Contract.ProductPicture;
+using ShopManagement.Domain.ProductAgg;
 using ShopManagement.Domain.ProductPictureAgg;
 
 namespace ShopManagement.Application
 {
     public class ProductPictureApplication : IProductPictureApplication
     {
+        private readonly IProductRepository _productRepository;
         private readonly IProductPictureRepository _productPictureRepository;
+        private readonly IFileUploader _fileUploader;
 
-        public ProductPictureApplication(IProductPictureRepository productPictureRepository)
+        public ProductPictureApplication(IProductRepository productRepository, IProductPictureRepository productPictureRepository, IFileUploader fileUploader)
         {
+            _productRepository = productRepository;
             _productPictureRepository = productPictureRepository;
+            _fileUploader = fileUploader;
         }  
 
         public OperationResult Create(CreateProductPicture command)
         {
             var operationResult = new OperationResult();
 
-            var product = _productPictureRepository.GetProductCategoryWithPicture(command.ProductId);
+            var product = _productRepository.GetProductWithCategory(command.ProductId);
 
-            var productPicture = new ProductPicture(command.Pictures, command.PictureTitle, command.PictureAlt,
+            var path = $"{product.Category.Slug}//{product.Slug}";
+            var pictureName = _fileUploader.Upload(command.Pictures, path);
+
+            var productPicture = new ProductPicture(pictureName, command.PictureTitle, command.PictureAlt,
                 command.ProductId);
 
             _productPictureRepository.Create(productPicture);
@@ -31,12 +40,16 @@ namespace ShopManagement.Application
         public OperationResult Edit(EditProductPicture command)
         {
             var operationResult = new OperationResult();
-            var product = _productPictureRepository.GetProductCategoryWithPicture(command.Id);
+            var productPicture = _productPictureRepository.GetProductCategoryWithPicture(command.Id);
 
-            if (product == null | command.ProductId == 0)
+            if (productPicture == null | command.ProductId == 0)
                 return operationResult.Failed("فیلد های اجباری را تکمیل کنید");
 
-            product.Edit(command.Pictures, command.PictureTitle, command.PictureAlt, command.ProductId);
+            var product = _productRepository.GetProductWithCategory(command.ProductId);
+            var path = $"{product.Category.Slug}//{product.Slug}";
+
+            var pictureName = _fileUploader.Upload(command.Pictures, path);
+            productPicture.Edit(pictureName, command.PictureTitle, command.PictureAlt, command.ProductId);
             _productPictureRepository.SaveChange();
 
             return operationResult.Succeded();

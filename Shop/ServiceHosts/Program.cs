@@ -1,5 +1,7 @@
+using _0_Framework.Application;
 using DiscountManagementConfiguration;
 using InventoryManagement.Infrastructure.Configuration;
+using ServiceHosts;
 using ShopManagement.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,8 @@ var connectionString = builder.Configuration.GetConnectionString("Shop_DB");
 ShopManagementBootstrapper.Configure(builder.Services, connectionString);
 DiscountManagementBootstrapper.Configure(builder.Services, connectionString);
 InventoryManagementBootstraper.Configure(builder.Services, connectionString);
+
+builder.Services.AddTransient<IFileUploader, FileUploader>();
 
 builder.Services.AddControllers(
     options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
