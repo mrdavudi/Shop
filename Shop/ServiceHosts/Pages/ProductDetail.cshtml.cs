@@ -1,5 +1,5 @@
+
 using _01_Query.Contract.Product;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ServiceHosts.Pages

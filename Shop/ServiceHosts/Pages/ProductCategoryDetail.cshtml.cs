@@ -1,6 +1,4 @@
 using _01_Query.Contract.ProductCategoryQuery;
-using _01_Query.Query;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ServiceHosts.Pages
