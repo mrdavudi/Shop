@@ -1,6 +1,10 @@
-﻿using _0_Framework.Application;
+﻿using System.Security.Claims;
+using _0_Framework.Application;
 using _01_Query.Contract.Blog.Article;
+using _01_Query.Contract.Comments;
 using BlogManagement.Infrastructure;
+using Comment.Application.Contract;
+using CommentManagement.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace _01_Query.Query
@@ -8,10 +12,12 @@ namespace _01_Query.Query
     public class ArticleQuery : IArticleQuery
     {
         private readonly BlogContext _blogContext;
+        private readonly CommentsContext _commentsContext;
 
-        public ArticleQuery(BlogContext blogContext)
+        public ArticleQuery(BlogContext blogContext, CommentsContext commentsContext)
         {
             _blogContext = blogContext;
+            _commentsContext = commentsContext;
         }
 
         public ArticleQueryModel GetArticleDetails(string slug)
@@ -40,6 +46,27 @@ namespace _01_Query.Query
             if (!string.IsNullOrWhiteSpace(article.Keywords))
                 article.KeywordList = article.Keywords.Split(",").ToList();
 
+            var comments = article.CommentList = _commentsContext.Comments
+                .Where(x=> !x.IsCanceled)
+                .Where(x=> x.IsConfirmed)
+                .Where(x=>x.Type == CommentType.ArticleType)
+                .Where(x=>x.OwnerRecordId == article.Id)
+                .Select(x => new CommentsQueryModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Message = x.Message,
+                    CreationDate = x.CreatetionDateTime.ToFarsi(),
+                    ParentId = x.ParentId,
+                }).ToList();
+
+            foreach (var comment in comments)
+            {
+                if(comment.ParentId > 0)
+                    comment.parentName = comments.FirstOrDefault(x => x.Id == comment.ParentId).Name;
+            }
+
+            article.CommentList = comments;
             return article;
         }
 

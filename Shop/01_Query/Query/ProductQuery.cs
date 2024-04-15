@@ -1,5 +1,7 @@
 ﻿using _0_Framework.Application;
+using _01_Query.Contract.Comments;
 using _01_Query.Contract.Product;
+using CommentManagement.Infrastructure;
 using DiscountManagement.Infrastructure;
 using InventoryManagement.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +14,14 @@ namespace _01_Query.Query
         private readonly ShopContext _shopContext;
         private readonly DiscountContext _discountContext;
         private readonly InventoryContext _inventoryContext;
+        private readonly CommentsContext _commentsContext;
 
-        public ProductQuery(ShopContext shopContext, DiscountContext discountContext, InventoryContext inventoryContext)
+        public ProductQuery(ShopContext shopContext, DiscountContext discountContext, InventoryContext inventoryContext, CommentsContext commentsContext)
         {
             _shopContext = shopContext;
             _discountContext = discountContext;
             _inventoryContext = inventoryContext;
+            _commentsContext = commentsContext;
         }
 
         public List<ProductQueryModel> GeLatestArrivals()
@@ -119,6 +123,22 @@ namespace _01_Query.Query
                         ProductDetail.DiscountExpireDate = productDiscount.EndDate.ToDiscountFormat();
                     }
                 }
+
+                ProductDetail.CommentsList = _commentsContext.Comments
+                    .Where(x => x.IsConfirmed)
+                    .Where(x => !x.IsCanceled)
+                    .Where(x => x.Type == CommentType.ProductType)
+                    .Where(x => x.OwnerRecordId == ProductDetail.Id)
+                    .Select(x => new CommentsQueryModel
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        Message = x.Message,
+                        CreationDate = x.CreatetionDateTime.ToFarsi(),
+                        ParentId = x.ParentId
+                    })
+                    .AsNoTracking().OrderByDescending(x=>x.Id).ToList();
+
             }
 
             return ProductDetail;

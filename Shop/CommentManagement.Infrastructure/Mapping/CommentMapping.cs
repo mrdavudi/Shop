@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CommentManagement.Domain.CommentAgg;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CommentManagement.Infrastructure.Mapping
 {
-    public class CommentMapping : IEntityTypeConfiguration<Domain.CommentAgg.Comment>
+    public class CommentMapping : IEntityTypeConfiguration<Comments>
     {
-        public void Configure(EntityTypeBuilder<Domain.CommentAgg.Comment> builder)
+        public void Configure(EntityTypeBuilder<Comments> builder)
         {
             builder.ToTable("Comments");
             builder.HasKey(x => x.Id);

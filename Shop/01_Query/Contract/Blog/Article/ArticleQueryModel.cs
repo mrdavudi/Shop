@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using _01_Query.Contract.Comments;
 
 namespace _01_Query.Contract.Blog.Article
 {
@@ -24,6 +25,6 @@ namespace _01_Query.Contract.Blog.Article
         public long CategoryId { get; set; }
         public string CategoryName { get; set; }
         public string CategorySlug { get; set; }
-
+        public List<CommentsQueryModel> CommentList { get; set; }
     }
 }

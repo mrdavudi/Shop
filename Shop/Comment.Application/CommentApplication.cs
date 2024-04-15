@@ -1,17 +1,22 @@
 ﻿using _0_Framework.Application;
 using Comment.Application.Contract;
+using CommentManagement.Domain.CommentAgg;
 using CommentManagement.Infrastructure.Repository;
 
 namespace Comment.Application
 {
     public class CommentApplication : ICommentApplication
     {
-        private readonly CommentRepository _commentRepository;
+        private readonly ICommentRepository _commentRepository;
 
-        public CommentApplication(CommentRepository commentRepository)
+        public CommentApplication() { }
+        
+        public CommentApplication(ICommentRepository commentRepository)
         {
             _commentRepository = commentRepository;
         }
+
+        
 
         public OperationResult Cancel(long id)
         {
@@ -43,7 +48,7 @@ namespace Comment.Application
         {
             var operationResult = new OperationResult();
 
-            var createComment = new CommentManagement.Domain.CommentAgg.Comment(Command.Name, Command.Email,
+            var createComment = new Comments(Command.Name, Command.Email,
                 Command.Website, Command.Message, Command.Type, Command.OwnerRecordId, Command.ParentId);
 
             _commentRepository.Create(createComment);

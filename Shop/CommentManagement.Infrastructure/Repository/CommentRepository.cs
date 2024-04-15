@@ -5,17 +5,17 @@ using CommentManagement.Domain.CommentAgg;
 
 namespace CommentManagement.Infrastructure.Repository
 {
-    public class CommentRepository : RepositoryBase<long, Domain.CommentAgg.Comment>, ICommentRepository
+    public class CommentRepository : RepositoryBase<long, Comments>, ICommentRepository
     {
-        private readonly CommentContext _commentContext;
-        public CommentRepository(CommentContext commentContext) : base(commentContext)
+        private readonly CommentsContext _commentsContext;
+        public CommentRepository(CommentsContext commentsContext) : base(commentsContext)
         {
-            _commentContext = commentContext;
+            _commentsContext = commentsContext;
         }
 
         public List<CommentViewModel> Search(CommentSearchModel searchModel)
         {
-            var query = _commentContext.Comments
+            var query = _commentsContext.Comments
                 .Select(x => new CommentViewModel
                 {
                     Id = x.Id,

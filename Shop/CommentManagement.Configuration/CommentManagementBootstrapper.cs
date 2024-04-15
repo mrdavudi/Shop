@@ -12,11 +12,10 @@ namespace CommentManagement.Configuration
     {
         public static void Configure(IServiceCollection services, string connectionString)
         {
-            services.AddTransient<ICommentApplication, CommentApplication>();
             services.AddTransient<ICommentRepository, CommentRepository>();
+            services.AddTransient<ICommentApplication, CommentApplication>();
 
-            services.AddDbContext<CommentContext>(x => x.UseSqlServer(connectionString));
-
+            services.AddDbContext<CommentsContext>(x => x.UseSqlServer(connectionString));
         }
     }
 }

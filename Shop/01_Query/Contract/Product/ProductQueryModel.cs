@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using _0_Framework.Application;
+﻿using _01_Query.Contract.Comments;
 
 namespace _01_Query.Contract.Product
 {
@@ -29,5 +24,6 @@ namespace _01_Query.Contract.Product
         public string Keywords { get; set; }
         public string MetaDescription { get; set; }
         public bool IsInStock { get; set; }
+        public List<CommentsQueryModel> CommentsList { get; set; }
     }
 }
