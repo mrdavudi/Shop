@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AccountManagement.Configuration\AccountManagement.Configuration.csproj" />
     <ProjectReference Include="..\BlogManagement.Application.Contract\BlogManagement.Application.Contract.csproj" />
     <ProjectReference Include="..\BlogManagement.Configuration\BlogManagement.Configuration.csproj" />
     <ProjectReference Include="..\CommentManagement.Configuration\CommentManagement.Configuration.csproj" />

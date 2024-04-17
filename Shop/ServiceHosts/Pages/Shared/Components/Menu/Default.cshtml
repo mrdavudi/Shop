@@ -1,4 +1,6 @@
-﻿@model List<_01_Query.Contract.ProductCategoryQuery.ProductCategoryQueryModel>
+﻿@using _0_Framework.Application.Auth
+@model List<_01_Query.Contract.ProductCategoryQuery.ProductCategoryQueryModel>
+@inject _0_Framework.Application.Auth.IAuthHelper AuthHelper
 
 <div class="header-area header-sticky">
     <div class="container">
@@ -37,6 +39,19 @@
 
                                 <li>
                                     <a asp-page="/ContactUs">تماس با ما</a>
+                                </li>
+                                
+                                <li>
+                                    @if (AuthHelper.IsAuthenticated())
+                                    {
+                                        <a asp-page="/LoginReg" asp-page-handler="LogOut">خروج</a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-page="/LoginReg">ورود / ثبت نام</a>
+                                    }
+
+                                    
                                 </li>
                             </ul>
                         </nav>
@@ -83,10 +98,7 @@
                                             <h4 class="title">حساب کاربری من</h4>
                                             <ul>
                                                 <li>
-                                                    <a href="login-register.html">ثبت نام</a>
-                                                </li>
-                                                <li>
-                                                    <a href="login-register.html">ورود</a>
+                                                    <a asp-page="/LoginReg">ورود / ثبت نام</a>
                                                 </li>
                                             </ul>
                                         </div>

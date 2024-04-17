@@ -14,5 +14,7 @@ namespace _0_Framework.Application
         public const string ValidExtensions = "پسوند فایل نادرست است.";
         public const string DuplicatedRecord = "رکورد تکراری است.";
         public const string RecordNotFound = "رکورد مورد نظر یافت نشد.";
+        public const string PasswordNotMatch = "رمز عبور با تکرار آن برابر نیست.";
+        public const string WrongUserNameOrPassword = "نام کاربری یا رمز عبور نادرست است.";
     }
 }

@@ -7,7 +7,7 @@ namespace CommentManagement.Infrastructure
     public class CommentsContext : DbContext
     {
         public DbSet<Comments> Comments { get; set; }
-        public CommentsContext(DbContextOptions options) : base(options)
+        public CommentsContext(DbContextOptions<CommentsContext> options) : base(options)
         {
 
         }
