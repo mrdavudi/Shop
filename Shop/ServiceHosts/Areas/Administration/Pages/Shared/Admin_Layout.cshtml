@@ -35,8 +35,10 @@
     <link href="~/AdminTheme/assets/css/helper.css" rel="stylesheet" type="text/css" />
     <link href="~/AdminTheme/assets/css/style.css" rel="stylesheet" type="text/css" />
     
+    @RenderSection("Css", false)
+
     <!-- Persian Date Picker -->
-    <link rel="stylesheet" type="text/css" href="~/AdminTheme/assets/css/persian-datepicker.min.css"/>
+    <link rel="stylesheet" type="text/css" href="~/AdminTheme/assets/css/persian-datepicker.min.css" />
 
     <script src="~/AdminTheme/assets/js/modernizr.min.js"></script>
 
@@ -218,6 +220,8 @@
                                 <a asp-page="/Account/Role/Index">مدیریت نقش کاربری</a>
                             </ul>
                         </li>
+                        <li>
+                            <a asp-page="/LoginReg" asp-page-handler="LogOut" class="waves-effect"><i class="fa fa-sign-out"></i><span> خروج </span></a>
                     </ul>
                     <div class="clearfix"></div>
                 </div>

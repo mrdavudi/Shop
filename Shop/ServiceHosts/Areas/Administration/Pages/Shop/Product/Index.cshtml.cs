@@ -1,9 +1,11 @@
 using _0_Framework.Application;
+using _0_Framework.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ShopManagement.Application.Contract.Product;
 using ShopManagement.Application.Contract.ProductCategory;
+using ShopManagement.Configuration;
 using ShopManagement.Domain.ProductCategoryAgg;
 
 namespace ServiceHosts.Areas.Administration.Pages.Shop.Product
@@ -28,6 +30,7 @@ namespace ServiceHosts.Areas.Administration.Pages.Shop.Product
             Products = _productApplication.Search(searchModel);
         }
 
+        [NeedsPermission(ShopPermissions.createProducts)]
         public IActionResult OnGetCreate()
         {
             var command = new CreateProduct

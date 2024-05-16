@@ -5,6 +5,7 @@ using CommentManagement.Infrastructure;
 using DiscountManagement.Infrastructure;
 using InventoryManagement.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using ShopManagement.Application.Contract.Order;
 using ShopManagement.Infrastructure;
 
 namespace _01_Query.Query
@@ -22,6 +23,18 @@ namespace _01_Query.Query
             _discountContext = discountContext;
             _inventoryContext = inventoryContext;
             _commentsContext = commentsContext;
+        }
+
+        public List<CartItem> CheckCartItemsStatus(List<CartItem> cartItems)
+        {
+            var inventory = _inventoryContext.Inventory.ToList();
+            foreach (var item in cartItems.Where(item =>
+                         inventory.Any(x => x.ProductId == item.Id && x.CalculateCurrentCount() >= item.Count)))
+            {
+                item.IsInStock = true;
+            }
+
+            return cartItems;
         }
 
         public List<ProductQueryModel> GeLatestArrivals()
@@ -48,7 +61,7 @@ namespace _01_Query.Query
                     Description = x.Description,
                     Keywords = x.Keywords,
                     MetaDescription = x.MetaDescription
-                }).AsNoTracking().OrderByDescending(x=>x.Id).Take(6).ToList();
+                }).AsNoTracking().OrderByDescending(x => x.Id).Take(6).ToList();
 
             foreach (var product in productList)
             {
@@ -69,7 +82,7 @@ namespace _01_Query.Query
                     }
                 }
             }
-            
+
             return productList;
         }
 
@@ -79,11 +92,11 @@ namespace _01_Query.Query
             var Discount = _discountContext.CustomerDiscount
                 .Where(x => x.StartDate < DateTime.Now && x.EndDate > DateTime.Now)
                 .Select(x => new { x.ProductId, x.DiscountRate, x.EndDate }).AsNoTracking().ToList();
-            
+
             var ProductDetail = _shopContext.Products
                 .Include(x => x.Category)
                 .ThenInclude(x => x.Products)
-                .Select(x=> new ProductQueryModel
+                .Select(x => new ProductQueryModel
                 {
                     Id = x.Id,
                     Picture = x.Picture,
@@ -137,7 +150,7 @@ namespace _01_Query.Query
                         CreationDate = x.CreatetionDateTime.ToFarsi(),
                         ParentId = x.ParentId
                     })
-                    .AsNoTracking().OrderByDescending(x=>x.Id).ToList();
+                    .AsNoTracking().OrderByDescending(x => x.Id).ToList();
 
             }
 
@@ -148,11 +161,11 @@ namespace _01_Query.Query
         {
             var inventory = _inventoryContext.Inventory.Select(x => new { x.ProductId, x.UnitPrice }).ToList();
             var discount = _discountContext.CustomerDiscount
-                .Where(x=> x.StartDate < DateTime.Now && x.EndDate > DateTime.Now)
+                .Where(x => x.StartDate < DateTime.Now && x.EndDate > DateTime.Now)
                 .Select(x => new { x.ProductId, x.DiscountRate, x.EndDate }).ToList();
 
             var searchProduct = _shopContext.Products
-                .Include(x=>x.Category)
+                .Include(x => x.Category)
                 .Select(product => new ProductQueryModel
                 {
                     Id = product.Id,

@@ -9,5 +9,6 @@
         public AuthViewModel CurrentAccountInfo();
         public long CurrentAccountId();
         public string CurrentAccountMobile();
+        public List<int> GetPermissions();
     }
 }

@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Storage.Json;
+using Newtonsoft.Json;
 
 namespace _0_Framework.Application.Auth
 {
@@ -52,6 +55,12 @@ namespace _0_Framework.Application.Auth
             return null;
         }
 
+        public List<int> GetPermissions()
+        {
+            var permission = _contextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "permissions")?.Value;
+            return JsonConvert.DeserializeObject<List<int>>(permission);
+        }
+
         public string CurrentAccountRole()
         {
             if (IsAuthenticated())
@@ -67,13 +76,15 @@ namespace _0_Framework.Application.Auth
 
         public void SignIn(AuthViewModel command)
         {
+            var permissions = JsonConvert.SerializeObject(command.Permissions);
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, command.Fullname),
                 new Claim("AccountId", command.Id.ToString()),
                 new Claim(ClaimTypes.Role, command.RoleId.ToString()),
                 new Claim("UserName", command.Username),
-                new Claim("Mobile", command.Mobile)
+                new Claim("Mobile", command.Mobile),
+                new Claim("permissions", permissions)
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

@@ -1,0 +1,60 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using _0_Framework.Domain;
+using Microsoft.Identity.Client;
+
+namespace ShopManagement.Domain.OrderAgg
+{
+    public class Order : EntityBase
+    {
+        public long AccountId { get; private set; }
+        public int PaymentMethod { get; private set; }
+        public double TotalAmount { get; private set; }
+        public double DiscountAmount { get; private set; }
+        public double PayAmount { get; private set; }
+        public bool IsPaid { get; private set; }
+        public bool IsCanceled { get; private set; }
+        public string IssueTrackingNo { get; private set; }
+        public long RefId { get; private set; }
+        public List<OrderItem> Items { get; private set; }
+
+        public Order(long accountId, int paymentMethod, double totalAmount, double discountAmount, double payAmount)
+        {
+            AccountId = accountId;
+            PaymentMethod = paymentMethod;
+            TotalAmount = totalAmount;
+            DiscountAmount = discountAmount;
+            PayAmount = payAmount;
+            IsPaid = false;
+            IsCanceled = false;
+            RefId = 0;
+            Items = new List<OrderItem>();
+        }
+
+        public void PaymentSucceeded(long refId)
+        {
+            IsPaid = true;
+
+            if (refId != 0)
+                RefId = refId;
+        }
+
+        public void Cancel()
+        {
+            IsCanceled = false;
+        }
+
+        public void SetIssueTrackingNo(string number)
+        {
+            IssueTrackingNo = number;
+        }
+
+        public void Add(OrderItem item)
+        {
+            Items.Add(item);
+        }
+    }
+}

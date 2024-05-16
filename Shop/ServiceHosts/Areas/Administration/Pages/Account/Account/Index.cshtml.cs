@@ -67,5 +67,10 @@ namespace ServiceHosts.Areas.Administration.Pages.Account.Account
             var ChangePassword = _accountApplication.ChangePassword(command);
             return new JsonResult(ChangePassword);
         }
+
+        public void OnGetLogOut()
+        {
+            _accountApplication.Logout();
+        }
     }
 }

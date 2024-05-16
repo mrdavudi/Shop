@@ -27,7 +27,7 @@ namespace DomainManagement.Application
             if (_roleRepository.Exist(x => x.Name == command.Name))
                 return operationResult.Failed(ValidationMessage.DuplicatedRecord);
 
-            var newRole = new Role(command.Name);
+            var newRole = new Role(command.Name, new List<Permission>());
             _roleRepository.Create(newRole);
             _roleRepository.SaveChange();
 
@@ -46,7 +46,14 @@ namespace DomainManagement.Application
             if (_roleRepository.Exist(x => x.Name == command.Name && x.Id != command.Id))
                 return operationResult.Failed(ValidationMessage.DuplicatedRecord);
 
-            role.Edit(command.Name);
+            var permissions = new List<Permission>();
+
+            if(command.Permissions != null)
+                command.Permissions.ForEach(code=> permissions.Add(new Permission(code)));
+            else
+                permissions = new List<Permission>();
+
+            role.Edit(command.Name, permissions);
             _roleRepository.SaveChange();
             return operationResult.Succeded();
         }

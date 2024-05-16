@@ -2,6 +2,7 @@
 using _0_Framework.Application.Auth;
 using _0_Framework.Application.PasswordHash;
 using AccountManagement.Domain.AccountAgg;
+using AccountManagement.Domain.RoleAgg;
 using DomainManagement.Application.Contract.Account;
 
 namespace DomainManagement.Application
@@ -12,6 +13,7 @@ namespace DomainManagement.Application
         private readonly IFileUploader _fileUploader;
         private readonly IAuthHelper _authHelper;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IRoleRepository _roleRepository;
 
         public AccountApplication()
         {
@@ -19,12 +21,13 @@ namespace DomainManagement.Application
         }
 
         public AccountApplication(IAccountRepository accountRepository, IFileUploader fileUploader
-            , IAuthHelper authHelper, IPasswordHasher passwordHasher)
+            , IAuthHelper authHelper, IPasswordHasher passwordHasher, IRoleRepository roleRepository)
         {
             _accountRepository = accountRepository;
             _fileUploader = fileUploader;
             _authHelper = authHelper;
             _passwordHasher = passwordHasher;
+            _roleRepository = roleRepository;
         }
 
         public OperationResult Register(RegisterAccount command)
@@ -58,8 +61,10 @@ namespace DomainManagement.Application
             if (!password.Verified)
                 return operationResult.Failed(ValidationMessage.WrongUserNameOrPassword);
 
+            var permissions = _roleRepository.Get(accountInfo.RoleId).Permissions.Select(x => x.Code).ToList();
+
             var authViewModel = new AuthViewModel(accountInfo.Id, accountInfo.RoleId, accountInfo.FullName,
-                accountInfo.UserName, accountInfo.Mobile);
+                accountInfo.UserName, accountInfo.Mobile, permissions);
 
             _authHelper.SignIn(authViewModel);
 

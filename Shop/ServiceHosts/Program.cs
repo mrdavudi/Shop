@@ -1,6 +1,7 @@
 using _0_Framework.Application;
 using _0_Framework.Application.Auth;
 using _0_Framework.Application.PasswordHash;
+using _0_Framework.Repository;
 using AccountManagement.Configuration;
 using BlogManagement.Configuration;
 using CommentManagement.Configuration;
@@ -41,20 +42,26 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         o.AccessDeniedPath = new PathString("/AccessDenied");
     });
 
-builder.Services.AddAuthorization(options =>
-    options.AddPolicy("AdminArea",
-        builder => builder.RequireRole(new List<string> { "1" })));
-
-builder.Services.AddControllers(
-    options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
+builder.Services.AddAuthorization(option =>
+{
+    option.AddPolicy("AdminArea", builder => builder.RequireRole(new List<string> { Roles.Administrator, Roles.ContentUploader }));
+    option.AddPolicy("Shop", builder => builder.RequireRole(new List<string> { Roles.Administrator }));
+    option.AddPolicy("Discount", builder=>builder.RequireRole(new List<string>{Roles.Administrator}));
+    option.AddPolicy("Inventory", builder=>builder.RequireRole(new List<string>{Roles.Administrator}));
+});
 
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizeAreaFolder("Administration", "/", "AdminArea");
     options.Conventions.AuthorizeAreaFolder("Administration", "/Shop", "Shop");
     options.Conventions.AuthorizeAreaFolder("Administration", "/Discounts", "Discount");
-    options.Conventions.AuthorizeAreaFolder("Administration", "/Accounts", "Account");
+    options.Conventions.AuthorizeAreaFolder("Administration", "/Inventory", "Inventory");
 });
+
+builder.Services.AddRazorPages().AddMvcOptions(options => options.Filters.Add<SecurityPageFilter>());
+
+builder.Services.AddControllers(
+    options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 
 var app = builder.Build();
 

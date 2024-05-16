@@ -9,7 +9,7 @@
     <div class="col-sm-12">
         <h4 class="page-title pull-right">@ViewData["title"]</h4>
         <p class="pull-left">
-            <a class="btn btn-success btn-lg" href="#Showmodal=@Url.Page("./Index", "Create")">ایجاد نقش کاربری</a>
+            <a class="btn btn-success btn-lg" asp-page="Create">ایجاد نقش کاربری</a>
         </p>
     </div>
 </div>
@@ -40,8 +40,7 @@
                                     <td>@items.Name</td>
                                     <td>@items.CreationDate</td>
                                     <td>
-                                        <a class="btn btn-warning pull-right m-rl-5" 
-                                           href="#showmodal=@Url.Page("./Index", "Edit", new {id = items.Id})">
+                                        <a class="btn btn-warning pull-right m-rl-5" asp-page="Edit" asp-route-id="@items.Id">
                                             <i class="fa fa-edit"></i> ویرایش
                                         </a>
                                     </td>

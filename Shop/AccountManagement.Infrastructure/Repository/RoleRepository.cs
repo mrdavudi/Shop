@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using _0_Framework.Application;
 using _0_Framework.Repository;
+using _0_Framework.Repository.Permissions;
 using AccountManagement.Domain.RoleAgg;
 using DomainManagement.Application.Contract.Role;
 using Microsoft.EntityFrameworkCore;
@@ -25,8 +26,14 @@ namespace AccountManagement.Infrastructure.Repository
                 .Select(x => new EditRole
                 {
                     Id = x.Id,
-                    Name = x.Name
-                }).FirstOrDefault(x => x.Id == id);
+                    Name = x.Name,
+                    MappedPermissions = MappedPermissions(x.Permissions)
+                }).AsNoTracking().FirstOrDefault(x => x.Id == id);
+        }
+
+        private static List<PermissionDTO> MappedPermissions(List<Permission> permissions)
+        {
+            return permissions.Select(x => new PermissionDTO(x.Code, x.Name)).ToList();
         }
 
         public List<RoleViewModel> List()

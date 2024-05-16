@@ -1,7 +1,9 @@
-﻿using _01_Query.Contract.Product;
+﻿using _0_Framework.Repository.Permissions;
+using _01_Query.Contract.Product;
 using _01_Query.Contract.ProductCategoryQuery;
 using _01_Query.Contract.Slide;
 using _01_Query.Query;
+using _01_Query.Query.Order;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ShopManagement.Application;
@@ -38,6 +40,10 @@ namespace ShopManagement.Configuration
 
             services.AddTransient<IProductCategoryQuery, ProductCategoryQuery>();
             services.AddTransient<IProductQuery, ProductQuery>();
+
+            services.AddTransient<IPermissionExposer, ShopPermissionExposer>();
+
+            services.AddTransient<ICheckOutCalculateService, CheckOutCalculateService>();
 
             services.AddDbContext<ShopContext>(x => x.UseSqlServer(connectionString));
         }
